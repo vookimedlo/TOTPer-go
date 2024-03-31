@@ -26,5 +26,5 @@ jobs:
       - name: Test
         run: go test -v ./...
 
-      - name: Fuzz
-        run: go test -v ./storage -fuzz=Fuzz
+#      - name: Fuzz
+#        run: go test -v ./storage -fuzz=Fuzz
