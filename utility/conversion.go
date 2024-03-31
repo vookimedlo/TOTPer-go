@@ -1,6 +1,5 @@
 package utility
 
-import "C"
 import (
 	"golang.org/x/exp/constraints"
 	"math"
