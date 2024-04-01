@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"TOTPer-go/storage/common"
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 	"strings"
@@ -74,23 +75,23 @@ func (database *Database) Insert(label string, issuer string, secret string, dig
 	return err
 }
 
-func (database *Database) Update(record Record) error {
+func (database *Database) Update(record common.Record) error {
 	_, err := database.updateCommand.Exec(record.Label, record.Issuer, record.Secret, record.Digits, record.Period, record.Algorithm, record.Id)
 	return err
 }
 
-func (database *Database) Query() (Records, error) {
+func (database *Database) Query() (common.Records, error) {
 	rows, err := database.database.Query(sqlCommand(selectSQLPrefix, tableName, ""))
 	if err != nil {
-		return Records{}, err
+		return common.Records{}, err
 	}
 	defer rows.Close()
 
-	var dataList Records
+	var dataList common.Records
 	for rows.Next() {
-		var data Record
+		var data common.Record
 		if err := rows.Scan(&data.Id, &data.Time, &data.Label, &data.Issuer, &data.Secret, &data.Digits, &data.Period, &data.Algorithm); err != nil {
-			return Records{}, err
+			return common.Records{}, err
 		}
 		dataList = append(dataList, data)
 	}

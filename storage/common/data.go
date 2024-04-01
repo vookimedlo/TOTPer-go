@@ -1,4 +1,4 @@
-package storage
+package common
 
 import "time"
 
@@ -11,6 +11,18 @@ type Record struct {
 	Digits    uint8
 	Period    uint8
 	Algorithm string
+}
+
+func (record *Record) Validate() {
+	if record.Algorithm == "" {
+		record.Algorithm = "sha1"
+	}
+	if record.Digits == 0 {
+		record.Digits = 6
+	}
+	if record.Period == 0 {
+		record.Period = 30
+	}
 }
 
 type Records []Record

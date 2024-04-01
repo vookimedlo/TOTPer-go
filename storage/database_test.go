@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"TOTPer-go/storage/common"
 	"github.com/stretchr/testify/assert"
 	"strings"
 	"testing"
@@ -28,7 +29,7 @@ func TestDatabase_Close(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func helperInsert(t *testing.T, database *Database, records Records) error {
+func helperInsert(t *testing.T, database *Database, records common.Records) error {
 	t.Helper()
 	for _, record := range records {
 		if err := database.Insert(record.Label, record.Issuer, record.Secret, record.Digits, record.Period, record.Algorithm); err != nil {
@@ -38,7 +39,7 @@ func helperInsert(t *testing.T, database *Database, records Records) error {
 	return nil
 }
 
-func helperClearTime(t *testing.T, records *Records) {
+func helperClearTime(t *testing.T, records *common.Records) {
 	t.Helper()
 	for i := 0; i < len(*records); i++ {
 		record := &(*records)[i]
@@ -47,7 +48,7 @@ func helperClearTime(t *testing.T, records *Records) {
 }
 
 func TestDatabase_InsertQueryUpdate(t *testing.T) {
-	var input = Records{
+	var input = common.Records{
 		{
 			Id:        1,
 			Time:      time.Time{},
@@ -120,7 +121,7 @@ func TestDatabase_InsertQueryUpdate(t *testing.T) {
 }
 
 func TestDatabase_UpdateFailOnNonUniqueName(t *testing.T) {
-	var input = Records{
+	var input = common.Records{
 		{
 			Id:        1,
 			Time:      time.Time{},
